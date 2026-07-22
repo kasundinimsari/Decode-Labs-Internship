@@ -51,7 +51,8 @@ Password-Strength-Checker
 Clone the repository:
 
 ```
-git clone https://github.com/kasundinimsari/Password-Strength-Checker.git
+git clone :
+https://github.com/kasundinimsari/Decode-Labs-Internship.git
 ```
 
 Install the required libraries:
