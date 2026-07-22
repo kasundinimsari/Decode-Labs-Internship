@@ -1,52 +1,114 @@
-# Password Strength Checker
-# DecodeLabs Internship - Project 1
+import customtkinter as ctk
+import string
+import pyperclip
 
-password = input("Enter your password: ")
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
-length = len(password)
+COMMON={"password","123456","12345678","qwerty","admin","abc123","welcome"}
 
-has_upper = False
-has_lower = False
-has_digit = False
-has_symbol = False
+app=ctk.CTk()
+app.title("Password Strength Checker")
+app.geometry("560x560")
+app.resizable(False,False)
 
-for char in password:
-    if char.isupper():
-        has_upper = True
-    elif char.islower():
-        has_lower = True
-    elif char.isdigit():
-        has_digit = True
-    elif not char.isalnum():
-        has_symbol = True
+def toggle():
+    if entry.cget("show")=="*":
+        entry.configure(show="")
+        show_btn.configure(text="Hide")
+    else:
+        entry.configure(show="*")
+        show_btn.configure(text="Show")
 
-score = 0
+def copy_pw():
+    pw=entry.get().strip()
+    if not pw:
+        status.configure(text="Nothing to copy!",text_color="orange")
+        return
+    pyperclip.copy(pw)
+    status.configure(text="Password copied!",text_color="lightgreen")
 
-if length >= 8:
-    score += 1
+title=ctk.CTkLabel(app,text="🔐 Password Strength Checker",font=("Segoe UI",28,"bold"))
+title.pack(pady=20)
 
-if has_upper:
-    score += 1
+entry=ctk.CTkEntry(app,width=360,height=42,placeholder_text="Enter your password",show="*",font=("Segoe UI",15))
+entry.pack()
 
-if has_lower:
-    score += 1
+show_btn=ctk.CTkButton(app,text="Show",width=90,command=toggle)
+show_btn.pack(pady=10)
 
-if has_digit:
-    score += 1
+progress=ctk.CTkProgressBar(app,width=360)
+progress.pack(pady=10)
+progress.set(0)
 
-if has_symbol:
-    score += 1
+result=ctk.CTkLabel(app,text="Waiting for password...",font=("Segoe UI",18,"bold"))
+result.pack()
 
-print("\n----- Password Analysis -----")
-print("Length:", length)
-print("Uppercase:", has_upper)
-print("Lowercase:", has_lower)
-print("Numbers:", has_digit)
-print("Symbols:", has_symbol)
+score_lbl=ctk.CTkLabel(app,text="Score: 0/5")
+score_lbl.pack()
 
-if score <= 2:
-    print("\nPassword Strength: Weak")
-elif score <= 4:
-    print("\nPassword Strength: Medium")
-else:
-    print("\nPassword Strength: Strong")
+checklist=ctk.CTkLabel(app,text="",justify="left",font=("Consolas",13))
+checklist.pack(pady=10)
+
+suggest=ctk.CTkLabel(app,text="")
+suggest.pack()
+
+status=ctk.CTkLabel(app,text="")
+status.pack(pady=5)
+
+def analyse(*_):
+    pw=entry.get().strip()
+    if not pw:
+        progress.set(0)
+        result.configure(text="Enter a password",text_color="white")
+        score_lbl.configure(text="Score: 0/5")
+        checklist.configure(text="")
+        suggest.configure(text="")
+        status.configure(text="")
+        return
+    if pw.lower() in COMMON:
+        progress.set(0.1)
+        progress.configure(progress_color="red")
+        result.configure(text="Very Weak",text_color="red")
+        score_lbl.configure(text="Score: 0/5")
+        checklist.configure(text="✖ Common password")
+        suggest.configure(text="Use a unique password.")
+        return
+    score=0
+    checks=[
+        ("Length (8+)",len(pw)>=8),
+        ("Uppercase",any(c.isupper() for c in pw)),
+        ("Lowercase",any(c.islower() for c in pw)),
+        ("Number",any(c.isdigit() for c in pw)),
+        ("Symbol",any(c in string.punctuation for c in pw)),
+    ]
+    lines=[]
+    for name,ok in checks:
+        if ok: score+=1
+        lines.append(("✔ " if ok else "✖ ")+name)
+    checklist.configure(text="\n".join(lines))
+    progress.set(score/5)
+    score_lbl.configure(text=f"Score: {score}/5")
+    if score<=2:
+        result.configure(text="Weak",text_color="red")
+        progress.configure(progress_color="red")
+        crack="Minutes"
+    elif score<=4:
+        result.configure(text="Medium",text_color="orange")
+        progress.configure(progress_color="orange")
+        crack="Days"
+    else:
+        result.configure(text="Strong",text_color="green")
+        progress.configure(progress_color="green")
+        crack="Years"
+    suggest.configure(text=f"Estimated crack time: {crack}")
+
+entry.bind("<KeyRelease>",analyse)
+
+btn=ctk.CTkButton(app,text="Analyze Password",command=analyse,height=40)
+btn.pack(pady=8)
+
+copy=ctk.CTkButton(app,text="Copy Password",command=copy_pw,height=40)
+copy.pack()
+
+app.mainloop()
