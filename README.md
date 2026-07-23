@@ -78,6 +78,7 @@ Example screenshots:
 
 - Home Screen
 - Weak Password
+- Very Weak Password
 - Medium Password
 - Strong Password
 
