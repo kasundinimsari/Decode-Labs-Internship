@@ -51,7 +51,6 @@ Password-Strength-Checker
 Clone the repository:
 
 ```
-git clone :
 https://github.com/kasundinimsari/Decode-Labs-Internship.git
 ```
 
