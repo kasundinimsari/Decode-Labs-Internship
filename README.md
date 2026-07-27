@@ -5,38 +5,35 @@ This repository contains all projects completed during my Decode Labs Internship
 ## Projects
 
 ### Project 1
-Advanced Caesar Cipher Encryption & Decryption Tool
+Password Strength Checker
 
-Languages
+**Language**
 - Python
 
-Features
-- Encryption
-- Decryption
-- History
-- File Handling
+**Features**
+- Password Strength Analysis
+- Strength Rating (Weak, Medium, Strong)
+- Character Validation
+- Security Recommendations
 
 ---
 
 ### Project 2
-Personal Portfolio Website
+Advanced Caesar Cipher Encryption & Decryption Tool
 
-Languages
-- HTML
-- CSS
-- JavaScript
+**Language**
+- Python
 
-Features
-- Responsive Design
-- About Section
-- Projects
-- Contact Form
+**Features**
+- Text Encryption
+- Text Decryption
+- Encryption History
+- File Handling Support
 
 ---
 
 ## Author
 
-Kasundi Nimsari
+**Kasundi Nimsari**
 
-GitHub
-https://github.com/kasundinimsari
+GitHub: https://github.com/kasundinimsari
