@@ -19,7 +19,7 @@ Password Strength Checker
 ---
 
 ### Project 2
-Advanced Caesar Cipher Encryption & Decryption Tool
+Caesar Cipher Encryption & Decryption Tool
 
 **Language**
 - Python
