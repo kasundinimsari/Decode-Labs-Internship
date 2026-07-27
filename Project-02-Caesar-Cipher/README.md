@@ -29,7 +29,7 @@ The application allows users to encrypt and decrypt messages using a custom shif
 
 ## Project Structure
 
-advanced_caesar_cipher.py
+caesar_cipher.py
 
 README.md
 
